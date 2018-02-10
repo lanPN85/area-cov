@@ -1,0 +1,7 @@
+[package]
+name = "area_cov"
+version = "0.1.0"
+authors = ["= <lanpn>"]
+
+[dependencies]
+rand = "0.4"
