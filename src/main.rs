@@ -1,6 +1,9 @@
 extern crate rand;
 
-mod coverage;
+mod fileio;
+mod init;
+mod models;
+mod ga;
 
 fn main() {
     println!("Hello, world!");

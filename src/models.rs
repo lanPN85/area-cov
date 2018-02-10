@@ -1,4 +1,4 @@
-use coverage::init::{random_init, random_points};
+use init::{random_init, random_points};
 
 #[derive(Debug, Clone)]
 pub struct Point {

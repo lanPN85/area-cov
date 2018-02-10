@@ -1,7 +1,7 @@
 use rand::distributions::{Range, IndependentSample};
 use rand;
 
-use coverage::models::*;
+use models::*;
 
 pub fn random_points(conf: &Configuration, size: i32) -> Vec<Point> {
 	let mut state: Vec<Point> = Vec::new();

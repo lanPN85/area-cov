@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io;
 use std::io::BufRead;
 
-use coverage::models;
+use models;
 
 pub fn config_from_file(path: String) -> models::Configuration {
 	let mut c = models::Configuration::new();
