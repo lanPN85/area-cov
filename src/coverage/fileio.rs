@@ -59,8 +59,8 @@ mod tests {
 		
 		println!("{:?}", cf);
 
-		assert_eq!(cf.w, 100);
-		assert_eq!(cf.h, 100);
+		assert_eq!(cf.w, 100.);
+		assert_eq!(cf.h, 100.);
 		assert_eq!(cf.n, 17);
 		assert_eq!(cf.counts.len(), 3);
 		assert_eq!(cf.radius.len(), 3);
