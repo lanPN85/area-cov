@@ -21,7 +21,7 @@ pub fn random_points(conf: &Configuration, size: i32) -> Vec<Point> {
 }
 
 pub fn random_state(conf: &Configuration) -> Vec<Point> {
-	random_points(&conf, conf.n)
+	random_points(conf, conf.n)
 }
 
 pub fn random_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
@@ -31,7 +31,41 @@ pub fn random_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
 		states.push(s);
 	}
 
+	vfa(conf, &mut states);
+	normalize(conf, &mut states);
+
 	states
+}
+
+fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+	/* Applies the virtual force algorithm to a set of states */
+}
+
+fn normalize(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+	/* Normalizes states to conform to area boundaries */
+	for state in states {
+		let mut _i = 0;
+		for i in 0..conf.counts.len() {
+			let count = conf.counts[i];
+			let radius = conf.radius[i];
+			for j in _i..(_i + count) {
+				let p = &mut state[j as usize];
+				if (p.x + radius) > conf.w {
+					p.x = conf.w - radius;
+				}
+				if (p.x - radius) < 0. {
+					p.x = radius;
+				}
+				if (p.y + radius) > conf.h {
+					p.y = conf.h - radius;
+				}
+				if (p.y - radius) < 0. {
+					p.y = radius;
+				}
+			}
+			_i += count;
+		}
+	}
 }
 
 #[cfg(test)]
