@@ -82,7 +82,7 @@ pub fn heuristic_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
 }
 
 /// Applies the virtual force algorithm to a set of states
-fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+pub fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
 	static PUSH_ALPHA: Point = Point{x: 1., y: 1.};
 	static PULL_ALPHA: Point = Point{x: 1., y: 1.};
 	static ONE: Point = Point{x: 1., y: 1.};
@@ -139,7 +139,7 @@ fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
 }
 
 /// Normalizes states to conform to area boundaries
-fn normalize(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+pub fn normalize(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
 	for state in states {
 		let mut _i = 0;
 		for i in 0..conf.counts.len() {

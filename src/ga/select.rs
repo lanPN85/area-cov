@@ -7,7 +7,7 @@ pub fn best(adapt_fn: &Fn(&Configuration, &Vec<Point>)->f32, conf: &Configuratio
 		states: &Vec<Vec<Point>>, size: usize) -> Vec<Vec<Point>> {
 	let mut new_states = states.clone();
 	// Convert float key to integer with 1e-5 accuracy
-	sort_by_key(&mut new_states, |s| (-1e5 * adapt_fn(conf, s)) as i32);
+	sort_by_key(&mut new_states, |s| (-1e5 * adapt_fn(conf, s)) as i64);
 	new_states = new_states[0..size].to_vec();
 
 	new_states
