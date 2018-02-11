@@ -83,6 +83,7 @@ mod tests {
 	}
 
 	#[test]
+	#[ignore]
 	fn test_file_out() {
 		let fname = Path::new("data/test.out");
 		let cf = config_from_file(&Path::new("data/ega/s1-07.in"));
