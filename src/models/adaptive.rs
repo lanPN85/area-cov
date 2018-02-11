@@ -90,7 +90,7 @@ pub fn overlap_fs(conf: &Configuration, state: &Vec<Point>) -> f32 {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
 	use super::*;
 
 	#[test]

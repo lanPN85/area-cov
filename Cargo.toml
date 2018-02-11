@@ -5,3 +5,4 @@ authors = ["= <lanpn>"]
 
 [dependencies]
 rand = "0.4"
+quickersort = "3.0"
