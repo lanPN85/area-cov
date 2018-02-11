@@ -1,4 +1,5 @@
 use rand::distributions::{Range, IndependentSample};
+use rand::Rng;
 use rand;
 
 use models::*;
@@ -33,6 +34,48 @@ pub fn random_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
 	}
 
 	vfa(conf, &mut states);
+	normalize(conf, &mut states);
+
+	states
+}
+
+pub fn heuristic_state(conf: &Configuration) -> Vec<Point> {
+	let mut state: Vec<Point> = Vec::new();
+	// Fill state with points
+	for _ in 0..conf.n {
+		state.push(Point::wrap(0.));
+	}
+
+	let mut r = rand::thread_rng();
+	let circles = Circle::from_state(conf, &state);
+	let mut indices: Vec<usize> = (0..state.len()).collect();
+
+	r.shuffle(&mut indices);
+	let mut current = Point::wrap(0.);
+	let mut y_offset = 0.;
+	for i in indices {
+		current.x += circles[i].radius;
+		current.y = y_offset + circles[i].radius;
+		if current.x > conf.w {
+			current.x = circles[i].radius;
+			y_offset = current.y;
+			current.y += circles[i].radius;
+		}
+		
+		state[i] = current.clone();
+		current.x += circles[i].radius;
+	}
+
+	state
+}
+
+pub fn heuristic_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
+	let mut states: Vec<Vec<Point>> = Vec::new();
+	for _ in 0..size {
+		let s = heuristic_state(&conf);
+		states.push(s);
+	}
+
 	normalize(conf, &mut states);
 
 	states
@@ -128,6 +171,19 @@ mod tests {
 	use super::*;
 
 	#[test]
+	fn test_heuristic_init() {
+		let mut conf = Configuration::new();
+		conf.w = 60.; conf.h = 100.;
+		conf.n = 3;
+		conf.counts = vec![1, 2];
+		conf.radius = vec![10., 20.];
+		let v = heuristic_init(&conf, 1);
+		println!("{:?}", &v[0]);
+		assert_eq!(v.len(), 1);
+		assert_eq!(v[0].len(), 3);
+	}
+
+	#[test]
 	fn test_random_init() {
 		let mut conf = Configuration::new();
 		conf.w = 100.; conf.h = 100.;
@@ -135,6 +191,7 @@ mod tests {
 		let v = random_init(&conf, 20);
 		println!("{:?}", &v[0]);
 		assert_eq!(v.len(), 20);
+		assert_eq!(v[0].len(), 3);
 	}
 
 	#[test]
