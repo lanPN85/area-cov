@@ -42,6 +42,23 @@ impl Circle {
 		let d = self.center.distance(p);
 		d <= self.radius
 	}
+
+	pub fn from_state(conf: &Configuration, state: &Vec<Point>) -> Vec<Circle> {
+		let mut v: Vec<Circle> = Vec::new();
+
+		let mut _i = 0;
+		for i in 0..conf.counts.len() {
+			let count = conf.counts[i];
+			for j in _i..(_i + count) {
+				v.push(Circle{
+					center: state[j as usize].clone(), 
+					radius: conf.radius[i]});
+			}
+			_i += count;
+		}
+
+		v
+	}
 }
 
 pub fn coverage_area(conf: &Configuration, state: &Vec<Point>) -> f32 {
@@ -50,19 +67,7 @@ pub fn coverage_area(conf: &Configuration, state: &Vec<Point>) -> f32 {
 	let a_s = conf.h * conf.w / l;
 	let mut total = 0.0;
 
-	let mut circles: Vec<Circle> = Vec::new();
-	{
-		let mut _i = 0;
-		for i in 0..conf.counts.len() {
-			let count = conf.counts[i];
-			for j in _i..(_i + count) {
-				circles.push(Circle{
-					center: state[j as usize].clone(), 
-					radius: conf.radius[i]});
-			}
-			_i += count;
-		}
-	}
+	let circles: Vec<Circle> = Circle::from_state(conf, state);
 
 	let points = random_points(conf, l as i32);
 	for p in points {
