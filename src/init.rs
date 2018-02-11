@@ -33,7 +33,7 @@ pub fn random_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
 		states.push(s);
 	}
 
-	vfa(conf, &mut states);
+	vfa_batch(conf, &mut states);
 	normalize(conf, &mut states);
 
 	states
@@ -82,59 +82,64 @@ pub fn heuristic_init(conf: &Configuration, size: i32) -> Vec<Vec<Point>> {
 }
 
 /// Applies the virtual force algorithm to a set of states
-pub fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+pub fn vfa_batch(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
+	for i in 0..states.len() {
+		vfa(conf, &mut states[i]);
+	}
+}
+
+/// Applies the virtual force algorithm to a single state
+pub fn vfa(conf: &Configuration, state: &mut Vec<Point>) {
 	static PUSH_ALPHA: Point = Point{x: 1., y: 1.};
 	static PULL_ALPHA: Point = Point{x: 1., y: 1.};
 	static ONE: Point = Point{x: 1., y: 1.};
 
-	for state in states {
-		let circles = Circle::from_state(conf, state);
+	let circles = Circle::from_state(conf, state);
 
-		// Adds boundary edges to list of candidates
-		let mut cand = circles.clone();
-		cand.extend(vec![
-			Circle{center: Point{x: 0., y: 0.}, radius: 0.},
-			Circle{center: Point{x: 0., y: conf.h}, radius: 0.},
-			Circle{center: Point{x: conf.w, y: 0.}, radius: 0.},
-			Circle{center: Point{x: conf.w, y: conf.h}, radius: 0.} 
-		]);
+	// Adds boundary edges to list of candidates
+	let mut cand = circles.clone();
+	cand.extend(vec![
+		Circle{center: Point{x: 0., y: 0.}, radius: 0.},
+		Circle{center: Point{x: 0., y: conf.h}, radius: 0.},
+		Circle{center: Point{x: conf.w, y: 0.}, radius: 0.},
+		Circle{center: Point{x: conf.w, y: conf.h}, radius: 0.} 
+	]);
 
-		for i in 0..circles.len() {
-			let c = &circles[i];
-			let mut fpull = Point::wrap(0.); 
-			let mut fpush = Point::wrap(0.);
-			let mut num_pull = Point::wrap(0.);
-			let mut num_push = Point::wrap(0.);
+	for i in 0..circles.len() {
+		let c = &circles[i];
+		let mut fpull = Point::wrap(0.); 
+		let mut fpush = Point::wrap(0.);
+		let mut num_pull = Point::wrap(0.);
+		let mut num_push = Point::wrap(0.);
 
-			for j in 0..cand.len() {
-				let ca = &cand[j];
+		for j in 0..cand.len() {
+			let ca = &cand[j];
 
-				let d = c.center.distance(&ca.center);
-				let _d = Point{x: d, y: d};
-				let sum = Point{x: c.radius + ca.radius, y: c.radius + ca.radius};
-				if d == 0. {
-					continue;
-				}
-
-				if d < (c.radius + ca.radius) {	
-					fpush = fpush + (ONE - sum / _d) * (ca.center - c.center);
-					num_push += ONE;
-				} else {
-					fpull = fpull + (ONE - sum / _d) * (ca.center - c.center);
-					num_pull += ONE;
-				}
+			let d = c.center.distance(&ca.center);
+			let _d = Point{x: d, y: d};
+			let sum = Point{x: c.radius + ca.radius, y: c.radius + ca.radius};
+			if d == 0. {
+				continue;
 			}
 
-			let mut push = Point::wrap(0.);
-			if !num_push.equals(&Point::wrap(0.)) {
-				push = PUSH_ALPHA * fpush / num_push;
-			};
-			let mut pull = Point::wrap(0.);
-			if !num_pull.equals(&Point::wrap(0.)) {
-				pull = PULL_ALPHA * fpull / num_pull;
-			};
-			state[i] = state[i] + push + pull;
+			if d < (c.radius + ca.radius) {	
+				fpush = fpush + (ONE - sum / _d) * (ca.center - c.center);
+				num_push += ONE;
+			} else {
+				fpull = fpull + (ONE - sum / _d) * (ca.center - c.center);
+				num_pull += ONE;
+			}
 		}
+
+		let mut push = Point::wrap(0.);
+		if !num_push.equals(&Point::wrap(0.)) {
+			push = PUSH_ALPHA * fpush / num_push;
+		};
+		let mut pull = Point::wrap(0.);
+		if !num_pull.equals(&Point::wrap(0.)) {
+			pull = PULL_ALPHA * fpull / num_pull;
+		};
+		state[i] = state[i] + push + pull;
 	}
 }
 

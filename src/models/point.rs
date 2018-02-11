@@ -21,6 +21,17 @@ impl Point {
 			x: value, y: value
 		}
 	}
+
+	pub fn all_equal(v1: &Vec<Point>, v2: &Vec<Point>) -> bool {
+		let mut b = true;
+		for i in 0..v1.len() {
+			if !v1[i].equals(&v2[i]) {
+				b = false;
+				break;
+			}
+		}
+		b
+	}
 }
 
 impl Add for Point {
