@@ -1,5 +1,8 @@
+#[allow(dead_code)]
 pub mod cross;
+#[allow(dead_code)]
 pub mod mutate;
+#[allow(dead_code)]
 pub mod select;
 
 use std::f32;
@@ -30,6 +33,10 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 	let mut best_score = f32::MIN;
 
 	for it in 0..iters {
+		if best_score == f32::MAX {
+			println!("Maximum score reached. Stopping early...");
+			break;
+		}
 		let mut new_states: Vec<Vec<Point>> = Vec::new();
 		
 		for s1 in &pool {

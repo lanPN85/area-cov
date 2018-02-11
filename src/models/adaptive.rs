@@ -1,11 +1,11 @@
 use std::f32;
-use init::{random_init, random_points};
+use init::random_points;
 
 use super::*;
 
 /// Calculates coverage area using Monte Carlo method
 pub fn coverage_area(conf: &Configuration, state: &Vec<Point>) -> f32 {
-	let l = 10000.;
+	let l = 1000000.;
 	let a_s = conf.h * conf.w / l;
 	let mut total = 0.0;
 
@@ -92,6 +92,7 @@ pub fn overlap_fs(conf: &Configuration, state: &Vec<Point>) -> f32 {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use init::random_init;
 
 	#[test]
 	fn test_coverage_area() {

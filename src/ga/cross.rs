@@ -34,7 +34,6 @@ pub fn homogenize(conf: &Configuration, p1: &Vec<Point>, p2: &Vec<Point>) -> (Ve
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use models::*;
 	use init::random_init;
 
 	#[test]

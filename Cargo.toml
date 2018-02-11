@@ -1,8 +1,13 @@
 [package]
 name = "area_cov"
 version = "0.1.0"
-authors = ["= <lanpn>"]
+authors = ["= lanpn <phan.ngoclan58@gmail.com>"]
 
 [dependencies]
 rand = "0.4"
 quickersort = "3.0"
+time = "0.1"
+
+[dependencies.clap]
+version = "~2.29"
+features = ["yaml"]

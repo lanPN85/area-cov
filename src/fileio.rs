@@ -6,7 +6,6 @@ use std::path::Path;
 
 use models::*;
 use models::point::Point;
-use init;
 
 pub fn config_from_file(path: &Path) -> Configuration {
 	let mut c = Configuration::new();
@@ -68,6 +67,7 @@ pub fn result_to_file(conf: &Configuration, result: &Vec<Point>, path: &Path) ->
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use init;
 
 	#[test]
 	fn test_file_inp() {

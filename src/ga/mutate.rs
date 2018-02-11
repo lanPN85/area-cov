@@ -1,7 +1,6 @@
 use rand::distributions::{IndependentSample, Normal};
 use rand;
 
-use models::*;
 use models::point::Point;
 
 pub fn dynamic_gaussian(state: &Vec<Point>, p1: &Vec<Point>, p2: &Vec<Point>) -> Vec<Point> {
@@ -39,6 +38,7 @@ mod tests {
 	use super::*;
 	use init::random_init;
 	use ga::cross::blx_alpha;
+	use models::Configuration;
 
 	#[test]
 	fn test_dynamic_gaussian() {

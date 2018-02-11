@@ -1,0 +1,36 @@
+name: areacov
+version: "0.1.0"
+author: lanpn <kbknapp@gmail.com>
+about: Genetic algorithm for optimizing coverage area in wireless sensor networks
+args:
+    - size:
+        short: s
+        long: size
+        help: The pool size for GA.
+        takes_value: true
+        default_value: "50"
+    - INPUT:
+        help: The input file.
+        required: true
+        index: 1
+    - cross_ratio:
+        help: Cross ratio for GA.
+        long: cross-ratio
+        takes_value: true
+        default_value: "0.5"
+    - mutate_ratio:
+        help: Mutate ratio for GA.
+        long: mutate-ratio
+        takes_value: true
+        default_value: "0.01"
+    - iters:
+        help: Number of GA iterations.
+        short: i
+        long: iters
+        takes_value: true
+        default_value: "1000"
+    - out:
+        help: Name of output file. If not specified, will not save results.
+        short: o
+        long: out
+        takes_value: true
