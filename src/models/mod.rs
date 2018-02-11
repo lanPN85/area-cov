@@ -1,6 +1,6 @@
-use init::{random_init, random_points};
-
 pub mod point;
+pub mod eval;
+
 use self::point::*;
 
 #[derive(Debug)]
@@ -48,50 +48,5 @@ impl Circle {
 		}
 
 		v
-	}
-}
-
-pub fn coverage_area(conf: &Configuration, state: &Vec<Point>) -> f32 {
-	/* Calculates coverage area using Monte Carlo method */
-	let l = 10000.;
-	let a_s = conf.h * conf.w / l;
-	let mut total = 0.0;
-
-	let circles: Vec<Circle> = Circle::from_state(conf, state);
-
-	let points = random_points(conf, l as i32);
-	for p in points {
-		let mut covered = false;
-		for j in 0..circles.len() {
-			let c = &circles[j];
-			if c.contains(&p) {
-				covered = true;
-				break;
-			}
-		}
-		if covered {
-			total += 1.;
-		}
-	}
-
-	a_s * total
-}
-
-#[cfg(test)]
-mod test {
-	use super::*;
-
-	#[test]
-	fn test_coverage_area() {
-		let conf = Configuration {
-			w: 20., h: 50., n: 3,
-			counts: vec![1, 2],
-			radius: vec![10., 20.]
-		};
-		let state = random_init(&conf, 1);
-		println!("{:?}", state);
-
-		let ca = coverage_area(&conf, &state[0]);
-		println!("{:?}", ca);
 	}
 }
