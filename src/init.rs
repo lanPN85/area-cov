@@ -87,7 +87,7 @@ fn vfa(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
 			};
 			let mut pull = Point::wrap(0.);
 			if !num_pull.equals(&Point::wrap(0.)) {
-				push = PULL_ALPHA * fpull / num_pull;
+				pull = PULL_ALPHA * fpull / num_pull;
 			};
 			state[i] = state[i] + push + pull;
 		}
