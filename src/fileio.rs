@@ -5,6 +5,7 @@ use std::io::prelude::*;
 use std::path::Path;
 
 use models::*;
+use models::point::Point;
 use init;
 
 pub fn config_from_file(path: &Path) -> Configuration {
