@@ -50,6 +50,7 @@ fn normalize(conf: &Configuration, states: &mut Vec<Vec<Point>>) {
 			let radius = conf.radius[i];
 			for j in _i..(_i + count) {
 				let p = &mut state[j as usize];
+				
 				if (p.x + radius) > conf.w {
 					p.x = conf.w - radius;
 				}
