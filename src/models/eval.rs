@@ -80,6 +80,15 @@ pub fn overlap(conf: &Configuration, state: &Vec<Point>) -> f32 {
 	ov
 }
 
+pub fn overlap_fs(conf: &Configuration, state: &Vec<Point>) -> f32 {
+	let ov = overlap(conf, state);
+	if ov == 0. {
+		f32::MAX
+	} else {
+		1. / ov
+	}
+}
+
 #[cfg(test)]
 mod test {
 	use super::*;
@@ -110,5 +119,8 @@ mod test {
 
 		let ov = overlap(&conf, &state);
 		println!("{:?}", ov);
+
+		let fs = overlap_fs(&conf, &state);
+		println!("{:?}", fs);
 	}
 }
