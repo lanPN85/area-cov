@@ -1,5 +1,5 @@
 pub mod point;
-pub mod eval;
+pub mod adaptive;
 
 use self::point::*;
 
