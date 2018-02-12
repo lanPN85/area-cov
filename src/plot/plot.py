@@ -5,7 +5,6 @@ from __future__ import print_function
 import sys
 try:
 	import matplotlib.pyplot as plt
-	import numpy as np
 except ImportError:
 	print('Missing python modules. Run pip install -r requirements.txt to install them.')
 	exit(1)
@@ -60,6 +59,7 @@ def draw_graph(w, h, cov, circles):
 if __name__ == '__main__':
 	if len(sys.argv) < 3:
 		print('Usage: plot.py [INPUT_FILE] [OUTPUT_FILE]')
+		exit(1)
 	fin = sys.argv[1]
 	fout = sys.argv[2]
 	if len(sys.argv) == 4 and sys.argv[3] == '--xkcd':
