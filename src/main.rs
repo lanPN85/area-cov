@@ -27,7 +27,7 @@ fn main() {
 	let iters = value_t!(args, "iters", i32).unwrap();
 	let runs = value_t!(args, "runs", i32).unwrap();
 	
-	println!("Reading '{}'...", fname.to_str().unwrap());
+	eprintln!("Reading '{}'...", fname.to_str().unwrap());
 	let conf = fileio::config_from_file(&fname);
 	let mut best_result: Vec<Point> = Vec::new();
 	let mut best_cov: f32 = 0.;
@@ -46,10 +46,10 @@ fn main() {
 			best_cov = cov;
 		}
 
-		println!("-------------");
-		println!("Elapsed time: {}ms", m_el);
-		println!("Coverage area: {}/{}", cov, conf.h * conf.w);
-		println!("-------------");
+		eprintln!("-------------");
+		eprintln!("Elapsed time: {}ms", m_el);
+		eprintln!("Coverage area: {}/{}", cov, conf.h * conf.w);
+		eprintln!("-------------");
 	}
 
 	if let Some(s) = args.value_of("out") {

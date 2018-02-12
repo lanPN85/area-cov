@@ -73,7 +73,7 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 			best_score = score;
 			best_state = pool[0].clone();
 		}
-		println!("Iter {}: Best score = {:e}", it+1, best_score);
+		println!("Generation {}: Best score = {:e}", it+1, best_score);
 	}
 
 	best_state
