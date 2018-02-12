@@ -34,3 +34,9 @@ args:
         short: o
         long: out
         takes_value: true
+    - runs:
+        help: No. of times to run GA.
+        short: r
+        long: runs
+        takes_value: true
+        default_value: "1"

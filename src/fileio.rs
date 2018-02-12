@@ -51,12 +51,13 @@ pub fn config_from_file(path: &Path) -> Configuration {
 	c
 }
 
-pub fn result_to_file(conf: &Configuration, result: &Vec<Point>, path: &Path) -> Result<(), io::Error> {
+pub fn result_to_file(conf: &Configuration, result: &Vec<Point>, cov: f32, path: &Path) -> Result<(), io::Error> {
 	let mut f = File::create(path).expect("Can't create file.");
 	let mut s = String::new();
 	let circles = Circle::from_state(conf, result);
 
 	s += &format!("{} {}\n", conf.w, conf.h);
+	s += &format!("{}\n", cov);
 	for c in circles {
 		s += &format!("{} {} {}\n", c.center.x, c.center.y, c.radius);
 	}
@@ -90,7 +91,7 @@ mod tests {
 		let cf = config_from_file(&Path::new("data/ega/s1-07.in"));
 		let results = &init::random_init(&cf, 1)[0];
 
-		match result_to_file(&cf, results, &fname) {
+		match result_to_file(&cf, results, 5511., &fname) {
 			Err(_) => panic!("File reading failed"),
 			Ok(_) => {}
 		};

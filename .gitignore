@@ -1,3 +1,5 @@
 docs/
 target/
 **/*.rs.bk
+out/*
+!out/FORMAT
