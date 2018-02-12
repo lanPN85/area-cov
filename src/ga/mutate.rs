@@ -36,7 +36,7 @@ pub fn static_gaussian(state: &Vec<Point>, _p1: &Vec<Point>, _p2: &Vec<Point>) -
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use init::random_init;
+	use ga::init::random_init;
 	use ga::cross::blx_alpha;
 	use models::Configuration;
 

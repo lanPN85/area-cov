@@ -4,12 +4,13 @@ pub mod cross;
 pub mod mutate;
 #[allow(dead_code)]
 pub mod select;
+#[allow(dead_code)]
+pub mod init;
 
 use std::f32;
 use rand;
 use rand::distributions::{IndependentSample, Range};
 
-use init;
 use models::*;
 use models::adaptive::*;
 use models::point::*;

@@ -25,6 +25,7 @@ pub fn blx_alpha(p1: &Vec<Point>, p2: &Vec<Point>, alpha: f32) -> Vec<Point> {
 }
 
 /// Creates a new pair of parents from p1 and p2 that have the optimal per-type distance
+#[allow(unused_variables)]
 pub fn homogenize(conf: &Configuration, p1: &Vec<Point>, p2: &Vec<Point>) -> (Vec<Point>, Vec<Point>) {
 	// TODO Implement Hugarian method
 

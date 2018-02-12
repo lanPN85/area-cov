@@ -92,7 +92,7 @@ pub fn overlap_fs(conf: &Configuration, state: &Vec<Point>) -> f32 {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use init::random_init;
+	use ga::init::random_init;
 
 	#[test]
 	fn test_coverage_area() {

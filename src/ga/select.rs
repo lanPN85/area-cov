@@ -17,7 +17,7 @@ pub fn best(adapt_fn: &Fn(&Configuration, &Vec<Point>)->f32, conf: &Configuratio
 mod tests {
 	use super::*;
 	use models::adaptive::overlap_fs;
-	use init::heuristic_init;
+	use ga::init::heuristic_init;
 
 	#[test]
 	fn test_best_selector() {

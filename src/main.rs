@@ -5,8 +5,6 @@ extern crate quickersort;
 extern crate time;
 
 mod fileio;
-#[allow(dead_code)]
-mod init;
 mod models;
 mod ga;
 
@@ -15,6 +13,7 @@ use clap::App;
 
 use models::adaptive;
 use models::point::Point;
+use ga::init;
 
 fn main() {
     let yaml = load_yaml!("cli.yml");
