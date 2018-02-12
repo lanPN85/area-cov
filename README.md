@@ -22,5 +22,18 @@ cargo test
 ./run_all.sh
 ```
 
+## Details
+The GA pipeline is implemented as follow:
+- The input values are contained in a struct called Configuration.
+- Point is the core struct which represents a sensor's position. Point allows element-wise ops like addition, multiplications,... For details, see `src/models/point.rs`
+- Encoding: Each individual (state) is a Vec\<Point>.
+- Initialization: Includes random initialization with VFA adjustment and heuristic initialization. Only uses heuristic. See `src/ga/init.rs`
+- Crossover: Implements BLX-&#945; crossover, with a homogenize step to alleviate encoding redundancy. See `src/ga/cross.rs`
+- Mutation: Implements static and dynamic Gaussian mutation. Only uses dynamic. See `src/ga/mutation.rs`
+- Selection: Selects k-best. Allows passing arbitrary metric function. See `src/ga/select.rs`
+
+Test data is generated according to Yoon et al, _An Efficient Genetic Algorithm for Maximum
+Coverage Deployment in Wireless Sensor Networks_.
+ 
 ## About
 Author: Phan Ngoc Lan (<phan.ngoclan58@gmail.com>)
