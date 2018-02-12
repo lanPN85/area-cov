@@ -1,5 +1,5 @@
 use std::f32;
-use init::random_points;
+use ga::init::random_points;
 
 use super::*;
 
