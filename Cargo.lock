@@ -5,7 +5,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "area_cov"
-version = "0.1.0"
+version = "0.2.1"
 dependencies = [
  "clap 2.29.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "quickersort 3.0.1 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -13,7 +13,6 @@ use clap::App;
 
 use models::adaptive;
 use models::point::Point;
-use ga::init;
 
 fn main() {
     let yaml = load_yaml!("cli.yml");

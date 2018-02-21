@@ -1,6 +1,6 @@
 [package]
 name = "area_cov"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["= lanpn <phan.ngoclan58@gmail.com>"]
 
 [dependencies]

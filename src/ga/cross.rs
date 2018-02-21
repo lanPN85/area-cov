@@ -4,6 +4,7 @@ use rand;
 
 use models::*;
 use models::point::Point;
+use ga::hungarian::apply_hungarian;
 
 pub fn blx_alpha(p1: &Vec<Point>, p2: &Vec<Point>, alpha: f32) -> Vec<Point> {
 	let mut child: Vec<Point> = Vec::new();
@@ -25,17 +26,26 @@ pub fn blx_alpha(p1: &Vec<Point>, p2: &Vec<Point>, alpha: f32) -> Vec<Point> {
 }
 
 /// Creates a new pair of parents from p1 and p2 that have the optimal per-type distance
-#[allow(unused_variables)]
 pub fn homogenize(conf: &Configuration, p1: &Vec<Point>, p2: &Vec<Point>) -> (Vec<Point>, Vec<Point>) {
-	// TODO Implement Hugarian method
+	let mut px2: Vec<Point> = Vec::new();
+	let mut s: usize = 0;
+	let weight_fn = |p1: &Point, p2: &Point| -p1.distance(p2);
+	for c in &conf.counts {
+		let _c = *c as usize;
+		let mut g1 = p1[s..s+_c].to_vec();
+		let mut g2 = p2[s..s+_c].to_vec();
+		apply_hungarian::<Point>(&mut g1, &mut g2, &weight_fn);
+		px2.append(&mut g2);
+		s += _c;
+	}
 
-	(p1.clone(), p2.clone())
+	(p1.clone(), px2)
 }
 
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use init::random_init;
+	use ga::init::random_init;
 
 	#[test]
 	fn test_blx() {
@@ -52,6 +62,23 @@ mod tests {
 		let pc = blx_alpha(&p[0], &p[1], 0.5);
 		println!("{:?}", pc);
 		assert_eq!(pc.len(), p[0].len());
+	}
+
+	#[test]
+	fn test_homogenize() {
+		let mut conf = Configuration::new();
+		conf.w = 60.; conf.h = 100.;
+		conf.n = 3;
+		conf.counts = vec![1, 2];
+		conf.radius = vec![10., 20.];
+		
+		let p = random_init(&conf, 2);
+		println!("{:?}", &p[0]);
+		println!("{:?}", &p[1]);
+
+		let (p1, p2) = homogenize(&conf, &p[0], &p[1]);
+		println!("{:?}", p1);
+		println!("{:?}", p2);
 	}
 }
 

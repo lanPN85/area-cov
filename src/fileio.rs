@@ -48,7 +48,19 @@ pub fn config_from_file(path: &Path) -> Configuration {
 		c.radius.push(r);
 	}
 
+	sanity_check(&c);
 	c
+}
+
+fn sanity_check(conf: &Configuration) {
+	let mut total_count = 0;
+	for c in &conf.counts {
+		total_count += c;
+	}
+
+	if total_count != conf.n {
+		panic!("Individual counts do not sum up to declared total count. Check your input file.")
+	}
 }
 
 pub fn result_to_file(conf: &Configuration, result: &Vec<Point>, cov: f32, path: &Path) -> Result<(), io::Error> {
@@ -68,7 +80,7 @@ pub fn result_to_file(conf: &Configuration, result: &Vec<Point>, cov: f32, path:
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use init;
+	use ga::init;
 
 	#[test]
 	fn test_file_inp() {

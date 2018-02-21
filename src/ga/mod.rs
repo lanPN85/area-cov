@@ -6,6 +6,7 @@ pub mod mutate;
 pub mod select;
 #[allow(dead_code)]
 pub mod init;
+pub mod hungarian;
 
 use std::f32;
 use rand;
@@ -49,7 +50,7 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 				// Cross step
 				if rng.ind_sample(&mut r) < cross_ratio {
 					let (_s1, _s2) = homogenize(conf, &s1, &s2);
-					let mut ch = blx_alpha(&_s1, &s2, 0.5);
+					let mut ch = blx_alpha(&_s1, &_s2, 0.5);
 					
 					// Mutate step
 					if rng.ind_sample(&mut r) < mutate_ratio {
