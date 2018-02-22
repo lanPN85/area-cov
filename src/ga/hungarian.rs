@@ -40,9 +40,9 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 		}
 	}
 
-	pub fn augment(&mut self, weight_fn: &Fn(&T, &T)->f32) {
-		if self.matches == self.n {
-			return;
+	pub fn augment(&mut self, weight_fn: &Fn(&T, &T)->f32) -> bool {
+		if self.matches >= self.n {
+			return true;
 		}
 
 		// Find root
@@ -70,7 +70,14 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 
 		let mut stop = false;
 		let mut y = 0;
+		let threshold: i32 = i32::pow(self.n, 3);
+		let mut runs = 0;
 		loop {
+			if runs >= threshold {
+				return false;
+			}
+			runs += 1;
+
 			// Build tree w/ BFS
 			while self.q.len() > 0 {
 				x = self.q.pop_front().unwrap();
@@ -80,9 +87,11 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 					let _y = y as usize;
 					if (weight_fn(&self.g1[_x], &self.g2[_y]) == self.lx[_x] + self.ly[_y]) && !self.t[_y] {
 						if self.yx[_y] == -1 {
+							// Found exposed vertex
 							stop = true;
 							break;
-						} // Found exposed vertex
+						}
+
 						// Add to T
 						self.t[_y] = true;
 						self.q.push_back(self.yx[_y]);
@@ -135,8 +144,8 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 				cx = self.prev[cx as usize];
 				cy = ty;
 			}
-			self.augment(weight_fn);
-		}
+			return self.augment(weight_fn);
+		} else { return false; }
 	}
 
 	fn add_to_tree(&mut self, x: i32, prevx: i32, weight_fn: &Fn(&T, &T)->f32) {
@@ -184,10 +193,12 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 
 pub fn apply_hungarian<T: Clone+Debug>(g1: &mut Vec<T>, g2: &mut Vec<T>, weight_fn: &Fn(&T, &T)->f32) {
 	let mut solver = HugarianSolver::new(g1, g2, weight_fn);
-	solver.augment(weight_fn);
+	let success = solver.augment(weight_fn);
 
-	for i in 0..g1.len() {
-		g2[i] = solver.g2[solver.xy[i] as usize].clone();
+	if success {
+		for i in 0..g1.len() {
+			g2[i] = solver.g2[solver.xy[i] as usize].clone();
+		}
 	}
 }
 
