@@ -104,7 +104,7 @@ mod tests {
 		let results = &init::random_init(&cf, 1)[0];
 
 		match result_to_file(&cf, results, 5511., &fname) {
-			Err(_) => panic!("File reading failed"),
+			Err(_) => panic!("File writing failed"),
 			Ok(_) => {}
 		};
 	}

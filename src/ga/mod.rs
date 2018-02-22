@@ -41,6 +41,7 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 		}
 		let mut new_states: Vec<Vec<Point>> = Vec::new();
 		
+		println!(" Crossover...");
 		for s1 in &pool {
 			for s2 in &pool {
 				if Point::all_equal(&s1, &s2) {
@@ -51,25 +52,31 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 				if rng.ind_sample(&mut r) < cross_ratio {
 					let (_s1, _s2) = homogenize(conf, &s1, &s2);
 					let mut ch = blx_alpha(&_s1, &_s2, 0.5);
+					// print!("-");	
 					
 					// Mutate step
 					if rng.ind_sample(&mut r) < mutate_ratio {
 						ch = MUTATE_ALG(&ch, &_s1, &_s2);
 						init::vfa(conf, &mut ch);
+						// print!("*");
 					}
 					// Add to new state
 					new_states.push(ch);
 				}
 			}
 		}
+		// println!("");
 
 		// Normalize
+		println!(" Normalize...");
 		init::normalize(conf, &mut new_states);
 
 		// Merge with pool and select
+		println!(" Select...");
 		pool.append(&mut new_states);
 		pool = SELECT_ALG(&SCORING_ALG, conf, &pool, size as usize);
 
+		println!(" Scoring...");
 		let score = SCORING_ALG(conf, &pool[0]);
 		if score > best_score {
 			best_score = score;

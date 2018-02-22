@@ -4,6 +4,8 @@ from __future__ import print_function
 
 import sys
 try:
+	import matplotlib
+	matplotlib.use('Agg')
 	import matplotlib.pyplot as plt
 except ImportError:
 	print('Missing python modules. Run pip install -r requirements.txt to install them.')
