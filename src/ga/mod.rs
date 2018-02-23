@@ -42,30 +42,27 @@ pub fn genetic_algorithm(conf: &Configuration, size: i32, iters: i32,
 		let mut new_states: Vec<Vec<Point>> = Vec::new();
 		
 		println!(" Crossover...");
-		for s1 in &pool {
-			for s2 in &pool {
-				if Point::all_equal(&s1, &s2) {
-					continue;
-				}
+		for i in 0..pool.len()-1 {
+			let s1 = &pool[i];
+			for j in i+1..pool.len() {
+				let s2 = &pool[j];
 
 				// Cross step
 				if rng.ind_sample(&mut r) < cross_ratio {
-					let (_s1, _s2) = homogenize(conf, &s1, &s2);
+					let (_s1, _s2) = (s1.clone(), s2.clone());
+					// let (_s1, _s2) = homogenize(conf, &s1, &s2);
 					let mut ch = blx_alpha(&_s1, &_s2, 0.5);
-					// print!("-");	
 					
 					// Mutate step
 					if rng.ind_sample(&mut r) < mutate_ratio {
 						ch = MUTATE_ALG(&ch, &_s1, &_s2);
 						init::vfa(conf, &mut ch);
-						// print!("*");
 					}
 					// Add to new state
 					new_states.push(ch);
 				}
 			}
 		}
-		// println!("");
 
 		// Normalize
 		println!(" Normalize...");

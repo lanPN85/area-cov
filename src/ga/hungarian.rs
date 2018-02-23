@@ -9,7 +9,8 @@ struct HugarianSolver<T: Clone+Debug> {
 	pub xy: Vec<i32>, pub yx: Vec<i32>,
 	q: VecDeque<i32>, prev: Vec<i32>,
 	s: Vec<bool>, t: Vec<bool>,
-	slack: Vec<f32>, slackx: Vec<i32>
+	slack: Vec<f32>, slackx: Vec<i32>,
+	runs: i32
 }
 
 impl<T: Clone+Debug> HugarianSolver<T> {
@@ -36,7 +37,7 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 			q: VecDeque::new(),
 			s: vec![false; _n], t: vec![false; _n],
 			slack: vec![0.;_n], slackx: vec![0; _n],
-			prev: vec![-1; _n]
+			prev: vec![-1; _n], runs: 0
 		}
 	}
 
@@ -70,13 +71,14 @@ impl<T: Clone+Debug> HugarianSolver<T> {
 
 		let mut stop = false;
 		let mut y = 0;
-		let threshold: i32 = i32::pow(self.n, 3);
-		let mut runs = 0;
+		let threshold = 100000;
+		// let mut runs = 0;
 		loop {
-			if runs >= threshold {
-				return false;
+			if self.runs >= threshold {
+				self.matches = self.n;
+				break;
 			}
-			runs += 1;
+			self.runs += 1;
 
 			// Build tree w/ BFS
 			while self.q.len() > 0 {

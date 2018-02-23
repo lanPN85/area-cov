@@ -19,7 +19,9 @@ pub fn blx_alpha(p1: &Vec<Point>, p2: &Vec<Point>, alpha: f32) -> Vec<Point> {
 		let d_y = end_y - start_y;
 		let rx = Range::new(start_x - alpha * d_x, end_x + alpha * d_x);
 		let ry = Range::new(start_y - alpha * d_y, end_y + alpha * d_y);
-		child.push(Point{x: rx.ind_sample(&mut r), y: ry.ind_sample(&mut r)});
+		let x = rx.ind_sample(&mut r);
+		let y = ry.ind_sample(&mut r);
+		child.push(Point{x: x, y: y});
 	}
 
 	child

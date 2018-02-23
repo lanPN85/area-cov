@@ -22,6 +22,7 @@ impl Point {
 		}
 	}
 
+	#[allow(dead_code)]
 	pub fn all_equal(v1: &Vec<Point>, v2: &Vec<Point>) -> bool {
 		let mut b = true;
 		for i in 0..v1.len() {
