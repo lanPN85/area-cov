@@ -1,5 +1,5 @@
 name: areacov
-version: "0.2.1"
+version: "0.2.2"
 author: lanpn <phan.ngoclan58@gmail.com>
 about: Genetic algorithm for optimizing coverage area in wireless sensor networks
 args:
